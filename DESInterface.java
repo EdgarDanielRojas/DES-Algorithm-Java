@@ -9,6 +9,8 @@ public class DESInterface extends JFrame implements  ActionListener{
 	private JTextField tfNumber;
     private JButton bEncriptar, bDesencriptar;
     private JPanel panel1, panel2, panel3;
+    private DESObject des = new DESObject();
+
 
 	public DESInterface(){
 		 super("DES Encryption");
