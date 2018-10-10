@@ -65,7 +65,7 @@ public class DESInterface extends JFrame implements  ActionListener{
 
         if(e.getSource()== bEncriptar)
         {
-          
+          System.out.println(des.encrypt("Hola como te encuentras hoy?"));
         }
 
         if(e.getSource()== bDesencriptar)
