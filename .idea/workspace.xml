@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="741712c2-3cd8-4c55-a080-e51eda18bea8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/DESInterface.class" afterPath="$PROJECT_DIR$/DESInterface.class" />
-      <change beforePath="$PROJECT_DIR$/DESInterface.java" afterPath="$PROJECT_DIR$/DESInterface.java" />
-      <change beforePath="$PROJECT_DIR$/DESObject.class" afterPath="$PROJECT_DIR$/DESObject.class" />
-      <change beforePath="$PROJECT_DIR$/DESObject.java" afterPath="$PROJECT_DIR$/DESObject.java" />
-    </list>
+    <list default="true" id="741712c2-3cd8-4c55-a080-e51eda18bea8" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

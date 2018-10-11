@@ -46,7 +46,7 @@ public class DESInterface extends JFrame implements  ActionListener{
         panel1.add(tfDesencriptar);
 
         panel2.add(bEncriptar);
-        panel2.add(bDesencriptar);
+        //panel2.add(bDesencriptar);
 
         panel3.add(panel1);
         //panel2.add(new JScrollPane(taDatos));
@@ -65,7 +65,9 @@ public class DESInterface extends JFrame implements  ActionListener{
 
         if(e.getSource()== bEncriptar)
         {
-          System.out.println(des.encrypt("Hola como te encuentras hoy?"));
+            String message = tfEncriptar.getText();
+            if(!message.equals(""))
+                tfDesencriptar.setText(des.encrypt(message));
         }
 
         if(e.getSource()== bDesencriptar)

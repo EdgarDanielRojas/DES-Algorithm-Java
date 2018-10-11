@@ -1,6 +1,6 @@
 
 import java.util.Random;
-
+import java.lang.StringBuilder;
 public class DESObject{
 
     private long DESKey;
@@ -25,6 +25,9 @@ public class DESObject{
     public DESObject(){
         this.DESKey = generateKey();
         generateSubkeys(this.DESKey);
+        for(int i = 0;i<64;i++){
+            setBit(0,i);
+        }
     }
 
     public String encrypt(String message){
@@ -40,16 +43,24 @@ public class DESObject{
         }
         length = message.length();
         int rounds = length/8;
+        long block2=0;
         for(int i = 0; i<rounds; i++){
+            block2 = 0 ;
             block = convertStringToLong(message.substring(i*8,(i*8)+8));
-            long left;
-            long right;
-            long temp;
+            for(int j = 0 ; j<64 ; j++){
+                if(getBit(block,(ip[63-j])-1)==1){
+                    block2 = setBit(block2,j);
+                }
+            }
+            block=block2;
+            left = 0;
+            right = 0;
+            long temp = 0;
             for(int j = 0 ; j<32; j++){
                 if(getBit(block,j)==1){
                     right = setBit(right,j);
                 if(getBit(block,j+32) == 1)
-                    left = setBit(left,j+32);
+                    left = setBit(left,j);
                 }
             }
             for(int j = 0 ; j<16; j++){
@@ -57,6 +68,16 @@ public class DESObject{
                 left = right;
                 right = temp ^ feistalFunction(left,j);
             }
+            long finalBlock=0;
+            finalBlock = finalBlock | left;
+            finalBlock = finalBlock | (right << 32);
+            block2=0;
+            for(int j = 0 ; j<64 ; j++){
+                if(getBit(finalBlock,ip_1[63-j] - 1)==1)
+                    block2 = setBit(block2,j);
+            }
+            finalBlock = block2;
+            encrypted += convertLongToString(finalBlock);
         }
         return encrypted;
     }
@@ -72,8 +93,9 @@ public class DESObject{
         long offset;
         for(int i = 0 ; i<8 ; i++){
             offset = 0;
-            offset = (2*getBit(newNum,(47-(i*6)) + getBit(newNum,47-(i*6)-5)*16;
-            offset = sn[i][offset];
+            offset = (2*getBit(newNum,(47-(i*6))) + getBit(newNum,47-(i*6)-5))*16;
+            offset = 8*getBit(newNum,47-(i*6)-1) + 4*getBit(newNum,47-(i*6)-2) + 2*getBit(newNum,47-(i*6)-3) + getBit(newNum,47-(i*6)-4);
+            offset = sn[i][(int)offset];
             offset = offset << (i*4);
             sNumber = sNumber|offset;
         }
@@ -85,19 +107,29 @@ public class DESObject{
         return returnNumber;
     }
 
+    private String convertLongToString(Long numb){
+        int bytes = 0;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0 ; i<16; i++){
+            bytes = 0 ;
+            for(int j = 0 ; j<4;j++){
+                if(getBit(numb,63 - (i*4) - (3-j)) == 0)
+                    bytes = bytes | (int)(Math.pow(2,j));
+            }
+            sb.append(String.format("%X", bytes));
+        }
+        return sb.toString();
+    }
+
     private long convertStringToLong(String s){
         long stringNum=0;
         byte[] bytes = s.getBytes();
-        System.out.println(bytes.length);
         for(int i = 7 ; i>=0; i--){
-            //System.out.println(bytes[i]);
             for(int j = 0; j<8;j++){
                 if(getBit(bytes[i],j)==1)
                     stringNum = setBit(stringNum,((7-i)*8)+j);
             }
         }
-        //System.out.println("String "+s+" binary");
-        printBits(stringNum,64);
         return stringNum;
     }
 
@@ -169,7 +201,6 @@ public class DESObject{
                 if(getBit(cdn,pc2[j]-1)==1)
                 subKeys[i-1] = setBit(subKeys[i-1],j);
             }
-            printBits(subKeys[i-1],48);
         }
     }
 
@@ -199,13 +230,11 @@ public class DESObject{
             if(random.nextBoolean())
                 keyGenerated = setBit(keyGenerated,i);
         }
-        printBits(keyGenerated,64);
-        System.out.println(keyGenerated);
         return keyGenerated;
     }
 
     private long setBit(long num,int k){
-        long newNum = num | (long)(Math.pow(2,k));
+        long newNum = num | ((long)1<<k);
         return newNum;
     }
 
