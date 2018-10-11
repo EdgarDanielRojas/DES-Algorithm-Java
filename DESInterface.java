@@ -1,13 +1,12 @@
 
-
+// Created by Edgar Daniel Rojas Vazquez
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.StringTokenizer;
 public class DESInterface extends JFrame implements  ActionListener{
-	private JTextArea tfEncriptar, tfDesencriptar;
-	private JTextField tfNumber;
-    private JButton bEncriptar, bDesencriptar;
+	private JTextArea  tfMessage, tfResult;
+    private JButton bEncrypt, bDecrypt;
     private JPanel panel1, panel2, panel3;
     private DESObject des = new DESObject();
 
@@ -15,64 +14,56 @@ public class DESInterface extends JFrame implements  ActionListener{
 	public DESInterface(){
 		 super("DES Encryption");
 		 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // 1. Crear objetos
-        tfEncriptar = new JTextArea();
-        bEncriptar  = new JButton("Cipher");
-        bDesencriptar = new JButton("Decipher");
 
-        tfDesencriptar   = new JTextArea();
+        // 1. Create objects used in GUI
+        tfMessage = new JTextArea();
+        bEncrypt  = new JButton("Cipher");
+        bDecrypt = new JButton("Decipher");
+        tfResult   = new JTextArea();
 
-        tfNumber = new JTextField();
-        // Adicionar deteccion de eventos a los botones
-        bEncriptar.addActionListener(this);
-        bDesencriptar.addActionListener(this);
+        // Add actionlisteners to buttons
+        bEncrypt.addActionListener(this);
+        bDecrypt.addActionListener(this);
 
-
-        //taDatos    = new JTextArea(10,30);
+        // Create panels to format layout
         panel1     = new JPanel();
         panel2     = new JPanel();
         panel3		= new JPanel();
-        // 2. Adicionar los objetos al panel1
+
+        // Give panels layout
         panel1.setLayout(new GridLayout(2,2,20,20));
         panel2.setLayout(new FlowLayout());
         panel3.setLayout(new GridLayout(2,1));
 
-        panel1.add(new JLabel("Message to cipher/decipher: "));
-        panel1.add(tfEncriptar);
-
-        //panel1.add(new JLabel("      "));
+        // 2. Add objects to panel 1
+        panel1.add(new JLabel("Message to cipher: "));
+        panel1.add(tfMessage);
         panel1.add(new JLabel("Result: "));
-        //panel1.add(new JLabel("      "));
-        panel1.add(tfDesencriptar);
+        panel1.add(tfResult);
+        panel2.add(bEncrypt);
 
-        panel2.add(bEncriptar);
-        //panel2.add(bDesencriptar);
-
+        // 3. Add panels to parent panel 3
         panel3.add(panel1);
-        //panel2.add(new JScrollPane(taDatos));
-
-        // 3. Adicionar panel2 al JFrame
         panel3.add(panel2);
         add(panel3);
         setSize(250,250);
         setVisible(true);
-
-
-
 	}
+
 	public void actionPerformed(ActionEvent e)
     {
-
-        if(e.getSource()== bEncriptar)
+        // Process the button press
+        if(e.getSource()== bEncrypt)
         {
-            String message = tfEncriptar.getText();
+            // Get text and encrypt. In case textbox is empty don't do anything
+            String message = tfMessage.getText();
             if(!message.equals(""))
-                tfDesencriptar.setText(des.encrypt(message));
+                tfResult.setText(des.encrypt(message));
         }
 
-        if(e.getSource()== bDesencriptar)
+        if(e.getSource()== bDecrypt)
         {
-        	
+        	//To be created
         }
 
     }
